@@ -1,4 +1,4 @@
-package br.com.mv.learning.mvlambdasstreams;
+package br.com.mv.learning.mvlambdasstreams.enums;
 
 public enum ApiUrl {
 

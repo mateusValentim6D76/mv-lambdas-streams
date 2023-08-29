@@ -1,6 +1,6 @@
 package br.com.mv.learning.mvlambdasstreams.usecase;
 
-import br.com.mv.learning.mvlambdasstreams.ApiUrl;
+import br.com.mv.learning.mvlambdasstreams.enums.ApiUrl;
 
 import java.io.IOException;
 import java.net.URI;
