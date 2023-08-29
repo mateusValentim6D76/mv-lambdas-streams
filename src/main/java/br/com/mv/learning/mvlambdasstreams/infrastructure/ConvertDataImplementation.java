@@ -1,5 +1,6 @@
 package br.com.mv.learning.mvlambdasstreams.infrastructure;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ConvertDataImplementation implements IConvertData {
@@ -8,6 +9,6 @@ public class ConvertDataImplementation implements IConvertData {
 
     @Override
     public <T> T getData(String json, Class<T> classType) {
-        return null;
+        return mapper.convertValue(json, classType);
     }
 }
