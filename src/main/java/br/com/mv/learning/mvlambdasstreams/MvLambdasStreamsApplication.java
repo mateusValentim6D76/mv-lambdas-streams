@@ -1,6 +1,8 @@
 package br.com.mv.learning.mvlambdasstreams;
 
+import br.com.mv.learning.mvlambdasstreams.domain.SeriesData;
 import br.com.mv.learning.mvlambdasstreams.enums.ApiUrl;
+import br.com.mv.learning.mvlambdasstreams.infrastructure.ConvertDataImplementation;
 import br.com.mv.learning.mvlambdasstreams.usecase.ApiConsumption;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,5 +20,8 @@ public class MvLambdasStreamsApplication implements CommandLineRunner {
 		var consumeApi = new ApiConsumption();
 		var json = consumeApi.getApiData(ApiUrl.OMDB_API.getUrl());
 		System.out.println(json);
+		ConvertDataImplementation converter = new ConvertDataImplementation();
+		SeriesData seriesData = converter.getData(json, SeriesData.class);
+		System.out.println("Utilizando o conversor do Jackson \n" + seriesData);
 	}
 }
