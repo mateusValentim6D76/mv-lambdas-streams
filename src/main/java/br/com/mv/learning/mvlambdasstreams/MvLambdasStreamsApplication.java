@@ -1,5 +1,6 @@
 package br.com.mv.learning.mvlambdasstreams;
 
+import br.com.mv.learning.mvlambdasstreams.domain.EpisodesData;
 import br.com.mv.learning.mvlambdasstreams.domain.SeriesData;
 import br.com.mv.learning.mvlambdasstreams.enums.ApiUrl;
 import br.com.mv.learning.mvlambdasstreams.infrastructure.ConvertDataImplementation;
@@ -18,10 +19,17 @@ public class MvLambdasStreamsApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		var consumeApi = new ApiConsumption();
-		var json = consumeApi.getApiData(ApiUrl.OMDB_API.getUrl());
+		String luci = "Lucifer";
+		var json = consumeApi.getApiData(ApiUrl.OMDB_API.getUrl(), luci);
 		System.out.println(json);
 		ConvertDataImplementation converter = new ConvertDataImplementation();
 		SeriesData seriesData = converter.getData(json, SeriesData.class);
 		System.out.println("Utilizando o conversor do Jackson \n" + seriesData);
+
+		String harryPotter = "harry+potter";
+		var jsonOthers = consumeApi.getApiData(ApiUrl.OMDB_API.getUrl(), harryPotter);
+		EpisodesData episodesData = converter.getData(jsonOthers, EpisodesData.class);
+		System.out.println("Utilizando o conversor do Jackson \n" + episodesData);
+
 	}
 }

@@ -10,9 +10,10 @@ import java.net.http.HttpResponse;
 
 public class ApiConsumption {
 
-    public String getApiData(String path) {
+
+    public String getApiData(String path, String name) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(ApiUrl.OMDB_API.getUrl())).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(ApiUrl.OMDB_API.getUrl()+name)).build();
         HttpResponse<String> response = null;
 
         try {
