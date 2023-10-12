@@ -27,9 +27,9 @@ public class ApiConsumption {
         String json = response.body();
         return json;
     }
-    public String getApiData(String path, String name, String paramFilter, Integer number) {
+    public String getApiData(String path, String name, String paramFilter) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(ApiUrl.OMDB_API+name+paramFilter+number)).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(path+name+paramFilter)).build();
         HttpResponse<String> response = null;
 
         try {
