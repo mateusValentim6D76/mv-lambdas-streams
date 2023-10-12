@@ -1,5 +1,6 @@
 package br.com.mv.learning.mvlambdasstreams.application;
 
+import br.com.mv.learning.mvlambdasstreams.domain.EpisodesData;
 import br.com.mv.learning.mvlambdasstreams.domain.SeasonData;
 import br.com.mv.learning.mvlambdasstreams.domain.SeriesData;
 import br.com.mv.learning.mvlambdasstreams.infrastructure.ConvertDataImplementation;
@@ -36,5 +37,14 @@ public class Principal {
             season.add(seasonData);
         }
         season.forEach(System.out::println);
+
+        for (int i =0; i<seriesData.totalSeasons(); i++){
+            List<EpisodesData> episodeSeasons = season.get(i).episodesData();
+            System.out.println("\n ###### Season "+ season.get(i).season() + " ######\n");
+            for (EpisodesData episodeSeason : episodeSeasons) {
+                System.out.println(episodeSeason.title());
+            }
+        }
     }
+
 }
