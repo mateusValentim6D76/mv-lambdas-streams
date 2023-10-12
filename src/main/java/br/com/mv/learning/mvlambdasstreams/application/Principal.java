@@ -38,13 +38,15 @@ public class Principal {
         }
         season.forEach(System.out::println);
 
-        for (int i =0; i<seriesData.totalSeasons(); i++){
-            List<EpisodesData> episodeSeasons = season.get(i).episodesData();
-            System.out.println("\n ###### Season "+ season.get(i).season() + " ######\n");
-            for (EpisodesData episodeSeason : episodeSeasons) {
-                System.out.println(episodeSeason.title());
-            }
-        }
+        season.forEach(s-> s.episodesData().forEach(e-> System.out.println(e.title())));
+
+//        for (int i =0; i<seriesData.totalSeasons(); i++){
+//            List<EpisodesData> episodeSeasons = season.get(i).episodesData();
+//            System.out.println("\n ###### Season "+ season.get(i).season() + " ######\n");
+//            for (EpisodesData episodeSeason : episodeSeasons) {
+//                System.out.println(episodeSeason.title());
+//            }
+//        }
     }
 
 }
