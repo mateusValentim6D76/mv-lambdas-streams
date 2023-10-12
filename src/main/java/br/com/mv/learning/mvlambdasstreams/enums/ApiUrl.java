@@ -1,16 +1,10 @@
 package br.com.mv.learning.mvlambdasstreams.enums;
 
 public enum ApiUrl {
+    OMDB_API("https://www.omdbapi.com/?t="),
+    API_KEY("&apikey=bb1a407d");
 
+    ApiUrl(String s) {
 
-    OMDB_API("http://www.omdbapi.com/?apikey=bb1a407d&t=");
-
-    private String url;
-    ApiUrl(String url) {
-        this.url = url;
-    }
-
-    public String getUrl() {
-        return url;
     }
 }

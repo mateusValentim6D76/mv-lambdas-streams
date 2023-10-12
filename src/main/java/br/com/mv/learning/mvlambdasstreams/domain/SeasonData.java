@@ -1,2 +1,11 @@
-package br.com.mv.learning.mvlambdasstreams.domain;public record SeasonData() {
+package br.com.mv.learning.mvlambdasstreams.domain;
+
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record SeasonData(@JsonAlias("Season") Integer season,
+                         @JsonAlias("Episodes") List<EpisodesData> episodesData) {
 }

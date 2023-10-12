@@ -11,9 +11,9 @@ import java.net.http.HttpResponse;
 public class ApiConsumption {
 
 
-    public String getApiData(String path, String name) {
+    public String getApi(String path,String name, String key) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(ApiUrl.OMDB_API.getUrl()+name)).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(path+name+key)).build();
         HttpResponse<String> response = null;
 
         try {
@@ -27,4 +27,38 @@ public class ApiConsumption {
         String json = response.body();
         return json;
     }
+    public String getApiData(String path, String name, String paramFilter, Integer number) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(ApiUrl.OMDB_API+name+paramFilter+number)).build();
+        HttpResponse<String> response = null;
+
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        String json = response.body();
+        return json;
+    }
+
+    public String getApiData(String url, String name, String paramFilter, String key) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url+name+paramFilter+key)).build();
+        HttpResponse<String> response = null;
+
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        String json = response.body();
+        return json;
+    }
+
 }
