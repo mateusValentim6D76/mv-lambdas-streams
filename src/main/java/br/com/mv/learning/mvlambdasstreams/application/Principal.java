@@ -8,6 +8,7 @@ import br.com.mv.learning.mvlambdasstreams.usecase.ApiConsumption;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,25 +21,25 @@ public class Principal {
     private final String API_KEY = "&apikey=bb1a407d";
 
     public void exibeMenu() throws JsonProcessingException {
-        System.out.println("Enter serie name");
-
-        var serieName = sc.next();
-        var json = apiConsumption.getApi(PATH, serieName.replace(" ", "+"),API_KEY);
-        System.out.println(json);
-        SeriesData seriesData = converter.getData(json, SeriesData.class);
-        System.out.println(seriesData);
-
-        List<SeasonData> season = new ArrayList<>();
-
-
-        for (int i = 1; i<=seriesData.totalSeasons(); i++){
-            json =  apiConsumption.getApiData(PATH, serieName.replace(" ", "+") +"&season=" + i,API_KEY);
-            SeasonData seasonData = converter.getData(json, SeasonData.class);
-            season.add(seasonData);
-        }
-        season.forEach(System.out::println);
-
-        season.forEach(s-> s.episodesData().forEach(e-> System.out.println(e.title())));
+//        System.out.println("Enter serie name");
+//
+//        var serieName = sc.next();
+//        var json = apiConsumption.getApi(PATH, serieName.replace(" ", "+"),API_KEY);
+//        System.out.println(json);
+//        SeriesData seriesData = converter.getData(json, SeriesData.class);
+//        System.out.println(seriesData);
+//
+//        List<SeasonData> season = new ArrayList<>();
+//
+//
+//        for (int i = 1; i<=seriesData.totalSeasons(); i++){
+//            json =  apiConsumption.getApiData(PATH, serieName.replace(" ", "+") +"&season=" + i,API_KEY);
+//            SeasonData seasonData = converter.getData(json, SeasonData.class);
+//            season.add(seasonData);
+//        }
+//        season.forEach(System.out::println);
+//
+//        season.forEach(s-> s.episodesData().forEach(e-> System.out.println(e.title())));
 
 //        for (int i =0; i<seriesData.totalSeasons(); i++){
 //            List<EpisodesData> episodeSeasons = season.get(i).episodesData();
@@ -47,6 +48,15 @@ public class Principal {
 //                System.out.println(episodeSeason.title());
 //            }
 //        }
-    }
 
+        List<String> names = Arrays.asList("Tha", "Ma", "Zina", "Biel", "Zana", "Joao");
+
+        names.stream()
+                .sorted()
+                .filter(n -> n.startsWith("Z"))
+                .map(n -> n.toUpperCase())
+                .forEach(System.out::println);
+
+    }
 }
+
