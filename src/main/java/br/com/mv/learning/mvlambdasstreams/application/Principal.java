@@ -4,6 +4,7 @@ import br.com.mv.learning.mvlambdasstreams.domain.EpisodesData;
 import br.com.mv.learning.mvlambdasstreams.domain.SeasonData;
 import br.com.mv.learning.mvlambdasstreams.domain.SeriesData;
 import br.com.mv.learning.mvlambdasstreams.infrastructure.ConvertDataImplementation;
+import br.com.mv.learning.mvlambdasstreams.model.Episodes;
 import br.com.mv.learning.mvlambdasstreams.usecase.ApiConsumption;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -22,7 +23,7 @@ public class Principal {
         System.out.println("Enter serie name");
 
         var serieName = sc.next();
-        var json = apiConsumption.getApi(PATH, serieName.replace(" ", "+"),API_KEY);
+        var json = apiConsumption.getApi(PATH, serieName.replace(" ", "+"), API_KEY);
         System.out.println(json);
         SeriesData seriesData = converter.getData(json, SeriesData.class);
         System.out.println(seriesData);
@@ -30,18 +31,18 @@ public class Principal {
         List<SeasonData> season = new ArrayList<>();
 
 
-        for (int i = 1; i<=seriesData.totalSeasons(); i++){
-            json =  apiConsumption.getApiData(PATH, serieName.replace(" ", "+") +"&season=" + i,API_KEY);
+        for (int i = 1; i <= seriesData.totalSeasons(); i++) {
+            json = apiConsumption.getApiData(PATH, serieName.replace(" ", "+") + "&season=" + i, API_KEY);
             SeasonData seasonData = converter.getData(json, SeasonData.class);
             season.add(seasonData);
         }
         season.forEach(System.out::println);
 
-        season.forEach(s-> s.episodesData().forEach(e-> System.out.println(e.title())));
+        season.forEach(s -> s.episodesData().forEach(e -> System.out.println(e.title())));
 
-        for (int i =0; i<seriesData.totalSeasons(); i++){
+        for (int i = 0; i < seriesData.totalSeasons(); i++) {
             List<EpisodesData> episodeSeasons = season.get(i).episodesData();
-            System.out.println("\n ###### Season "+ season.get(i).season() + " ######\n");
+            System.out.println("\n ###### Season " + season.get(i).season() + " ######\n");
             for (EpisodesData episodeSeason : episodeSeasons) {
                 System.out.println(episodeSeason.title());
             }
@@ -51,9 +52,9 @@ public class Principal {
         e colocando dentro de uma unica lista "episodesData"
         por isso o uso do flatMap
          */
-    List<EpisodesData> episodesData = season.stream()
-            .flatMap(s -> s.episodesData().stream())
-            .collect(Collectors.toList());
+        List<EpisodesData> episodesData = season.stream()
+                .flatMap(s -> s.episodesData().stream())
+                .collect(Collectors.toList());
 
         System.out.println("\n Top 5 episodes");
 
@@ -62,6 +63,13 @@ public class Principal {
                 .sorted(Comparator.comparing(EpisodesData::imdbRating).reversed())
                 .limit(5)
                 .forEach(System.out::println);
+
+        List<Episodes> episodes = season.stream()
+                .flatMap(s -> s.episodesData().stream()
+                        .map(ep -> new Episodes(s.season(), ep)))
+                .collect(Collectors.toList());
+
+        episodes.forEach(System.out::println);
 //        List<String> names = Arrays.asList("Tha", "Ma", "Zina", "Biel", "Zana", "Joao");
 //
 //        names.stream()
