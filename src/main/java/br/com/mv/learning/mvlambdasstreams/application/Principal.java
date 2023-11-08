@@ -8,6 +8,8 @@ import br.com.mv.learning.mvlambdasstreams.model.Episodes;
 import br.com.mv.learning.mvlambdasstreams.usecase.ApiConsumption;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -70,6 +72,21 @@ public class Principal {
                 .collect(Collectors.toList());
 
         episodes.forEach(System.out::println);
+
+        System.out.println("Qual ano gostaria de filtrar ?");
+
+        var year = sc.nextInt();
+        sc.nextLine();
+
+        LocalDate dateOfSearch = LocalDate.of(year, 1, 1);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        episodes.stream()
+                .filter(e -> e.getReleaseDateOf() != null && e.getReleaseDateOf().isAfter(dateOfSearch))
+                .forEach(e -> System.out.println("Season: " + e.getSeason() + "Episode: " +
+                        e.getTitle() + " Release Date Of " + e.getReleaseDateOf().format(dtf)));
+
+
 //        List<String> names = Arrays.asList("Tha", "Ma", "Zina", "Biel", "Zana", "Joao");
 //
 //        names.stream()
