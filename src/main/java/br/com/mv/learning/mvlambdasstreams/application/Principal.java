@@ -58,13 +58,19 @@ public class Principal {
                 .flatMap(s -> s.episodesData().stream())
                 .collect(Collectors.toList());
 
-        System.out.println("\n Top 5 episodes");
+//        System.out.println("\n Top 10 episodes");
 
-        episodesData.stream()
-                .filter(e -> !e.imdbRating().equalsIgnoreCase("N/A"))
-                .sorted(Comparator.comparing(EpisodesData::imdbRating).reversed())
-                .limit(5)
-                .forEach(System.out::println);
+//        episodesData.stream()
+//                .filter(e -> !e.imdbRating().equalsIgnoreCase("N/A"))
+//                .peek(e -> System.out.println("FILTRANDO POR N/A " + e))
+//                .sorted(Comparator.comparing(EpisodesData::imdbRating).reversed())
+//                .peek(e -> System.out.println("ORDENAÇÃO " + e))
+//                .limit(5)
+//                .peek(e -> System.out.println("LIMITE " + e))
+//                .map(e -> e.title().toUpperCase())
+//                .peek(e -> System.out.println("MAPEAMENTO " + e))
+//                .forEach(System.out::println);
+
 
         List<Episodes> episodes = season.stream()
                 .flatMap(s -> s.episodesData().stream()
@@ -73,18 +79,33 @@ public class Principal {
 
         episodes.forEach(System.out::println);
 
-        System.out.println("Qual ano gostaria de filtrar ?");
+        System.out.println("Digite um trecho do titulo do episodio");
 
-        var year = sc.nextInt();
         sc.nextLine();
+        var excerptFromEpisode = sc.nextLine();
 
-        LocalDate dateOfSearch = LocalDate.of(year, 1, 1);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        episodes.stream()
-                .filter(e -> e.getReleaseDateOf() != null && e.getReleaseDateOf().isAfter(dateOfSearch))
-                .forEach(e -> System.out.println("Season: " + e.getSeason() + "Episode: " +
-                        e.getTitle() + " Release Date Of " + e.getReleaseDateOf().format(dtf)));
+        Optional<Episodes> episodeSearched = episodes.stream()
+                .filter(e -> e.getTitle().toUpperCase().contains(excerptFromEpisode.toUpperCase()))
+                .findFirst();
+        if(episodeSearched.isPresent()){
+            System.out.println("Episodio encontrado");
+            System.out.println("Temporada " + episodeSearched.get().getSeason());
+        } else {
+            System.out.println("Episodio nao encontrado");
+        }
+//
+//        System.out.println("Qual ano gostaria de filtrar ?");
+//
+//        var year = sc.nextInt();
+//        sc.nextLine();
+//
+//        LocalDate dateOfSearch = LocalDate.of(year, 1, 1);
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//
+//        episodes.stream()
+//                .filter(e -> e.getReleaseDateOf() != null && e.getReleaseDateOf().isAfter(dateOfSearch))
+//                .forEach(e -> System.out.println("Season: " + e.getSeason() + "Episode: " +
+//                        e.getTitle() + " Release Date Of " + e.getReleaseDateOf().format(dtf)));
 
 
 //        List<String> names = Arrays.asList("Tha", "Ma", "Zina", "Biel", "Zana", "Joao");
