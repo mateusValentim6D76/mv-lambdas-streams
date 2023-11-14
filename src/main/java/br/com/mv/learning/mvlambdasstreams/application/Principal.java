@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Principal {
     private Scanner sc = new Scanner(System.in);
@@ -116,12 +117,40 @@ public class Principal {
 //                .map(n -> n.toUpperCase())
 //                .forEach(System.out::println);
 
-        Map<Integer, Double> evaluationBySeason  = episodes
-                .stream()
+        //Map<Integer, Double> evaluationBySeason  = episodes
+          //      .stream()
+          //      .filter(e -> e.getAssessment() > 0.0)
+           //     .collect(Collectors.groupingBy(Episodes::getSeason,
+             //           Collectors.averagingDouble(Episodes::getAssessment)));
+        //System.out.println(evaluationBySeason);
+
+        DoubleSummaryStatistics dss = episodes.stream()
                 .filter(e -> e.getAssessment() > 0.0)
-                .collect(Collectors.groupingBy(Episodes::getSeason,
-                        Collectors.averagingDouble(Episodes::getAssessment)));
-        System.out.println(evaluationBySeason);
+                .collect(Collectors.summarizingDouble(Episodes::getAssessment));
+        System.out.println("Media geral: " + dss.getAverage() +
+                "Nota maxima: " + dss.getMax() +
+                "Nota minima: " + dss.getMin() +
+                "Total de episódios: " + dss.getCount());
+
+        Stream.iterate(0, n -> n + 1)
+                .limit(10)
+                .forEach(System.out::println);
+//Neste exemplo, transformamos um Stream de List para um Stream de Strings.
+        List<List<String>> list = List.of(
+                List.of("a", "b"),
+                List.of("c", "d")
+        );
+
+        Stream<String> stream = list.stream()
+                .flatMap(Collection::stream);
+
+        stream.forEach(System.out::println);
+
+//Somando todos os numeros da lista utilizando o reduce
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5);
+        Optional<Integer> result = numbers.stream().reduce(Integer::sum);
+        result.ifPresent(System.out::println); //prints 15
+
     }
 }
 
